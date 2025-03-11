@@ -1,0 +1,86 @@
+﻿<Window x:Class="AdminApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Admin Panel" 
+        Height="450" Width="800" 
+        WindowStyle="None" 
+        AllowsTransparency="True" 
+        Background="#FFFAFAFA" 
+        ResizeMode="CanResizeWithGrip">
+    <Grid>
+        <!-- Определение строк для заголовка, таблицы и кнопок -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок окна -->
+        <Border Background="#FF007ACC" Grid.Row="0" Height="30">
+            <DockPanel>
+                <!-- Текст заголовка -->
+                <TextBlock Text="Административная панель" 
+                           FontSize="20" 
+                           FontWeight="Bold" 
+                           Margin="9 0 0 0" 
+                           Foreground="White" RenderTransformOrigin="0.502,-0.111" Height="87" Width="701"  />
+
+                <Grid Width="Auto" Height="30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Кнопка для минимума -->
+                    <Button Content="-" Width="30" Height="30" Click="Minimize_Click" Background="#FF007ACC" BorderBrush="{x:Null}" Foreground="White" Grid.Column="1" />
+
+                    <!-- Кнопка для максимизации/восстановления -->
+                    <Button Content="⧉" Width="30" Height="30" Click="MaximizeRestore_Click" Background="#FF007ACC" BorderBrush="{x:Null}" Foreground="White" Grid.Column="2" />
+
+                    <!-- Кнопка для закрытия -->
+                    <Button Content="X" Width="30" Height="30" Click="Close_Click" Background="#FF007ACC" BorderBrush="{x:Null}" Foreground="White" Grid.Column="3" />
+                </Grid>
+            </DockPanel>
+        </Border>
+
+        <!-- Список клиентов -->
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Clients}" 
+                  AutoGenerateColumns="False"
+                  SelectedItem="{Binding SelectedClient}" 
+                  IsReadOnly="True"
+                  Margin="10"
+                  VerticalScrollBarVisibility="Auto"
+                  Background="White"
+                  BorderBrush="#FF007ACC" 
+                  BorderThickness="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" />
+                <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
+                <DataGridTextColumn Header="Год рождения" Binding="{Binding YearOfBirth}" />
+                <DataGridTextColumn Header="ЕГРН" Binding="{Binding EGRN}" />
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Кнопки управления -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,12" RenderTransformOrigin="0.5,0.538">
+            <TextBlock Text="{Binding StatusMessage}" 
+               Foreground="Red" 
+               Margin="0,0,0,10" 
+               TextAlignment="Center" 
+               FontSize="16" >
+                <TextBlock.Effect>
+                    <DropShadowEffect ShadowDepth="2" Color="Gray" BlurRadius="5"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <Button Content="Принять" Width="100" Margin="5" Command="{Binding ConfirmCommand}" Background="#FF007ACC" Foreground="White" BorderBrush="{x:Null}" />
+            <Button Content="Отклонить" Width="100" Margin="5" Command="{Binding RejectCommand}" Background="#FF007ACC" Foreground="White" BorderBrush="{x:Null}" />
+        </StackPanel>
+    </Grid>
+</Window>
